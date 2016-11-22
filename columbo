@@ -8,6 +8,20 @@ use Errno;
 use Net::OpenSSH;
 use Data::Dumper;
 use JSON::PP;
+use Getopt::Std;
+
+
+my $opt = {};
+getopts('f:', $opt);
+
+# read host config; must be json containing ipaddress/hostname, username, password, path to directory to be monitored 
+my $c;
+if(-f $opt->{f}){
+  open(my $fh,'<', $opt->{f}) || die "cant open $opt->{f}: $!"
+  local $/;
+  $c = decode_son scalar <$fh>;
+  close $fh;
+}
 
 
 my @hosts = (); die "ADD HOSTS";
